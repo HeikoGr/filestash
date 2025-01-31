@@ -18,6 +18,7 @@ RUN apk add make git gzip brotli && \
 FROM golang:1.23-bookworm AS builder_backend
 WORKDIR /home/filestash/
 COPY --from=builder_frontend /home/filestash/ .
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 RUN apt-get update > /dev/null && \
     apt-get install -y curl make > /dev/null 2>&1 && \
     apt-get install -y build-essential cmake wget libaom-dev libavcodec-dev libsharpyuv-dev librav1e-dev libjpeg-dev libtiff-dev libpng-dev libwebp-dev libraw-dev libgif-dev libvips-dev libde265-dev libx265-dev > /dev/null 2>&1 && \
@@ -49,6 +50,7 @@ FROM debian:stable-slim
 MAINTAINER mickael@kerjean.me
 WORKDIR /app/
 COPY --from=builder_final /home/filestash/dist/ .
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 RUN apt-get update > /dev/null && \
     apt-get install -y --no-install-recommends apt-utils && \
     apt-get install -y curl ffmpeg libjpeg-dev libtiff-dev libpng-dev libwebp-dev libraw-dev  libgif-dev && \
