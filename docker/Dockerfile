@@ -21,6 +21,7 @@ COPY --from=builder_frontend /home/filestash/ .
 RUN apt-get update > /dev/null && \
     apt-get install -y curl make > /dev/null 2>&1 && \
     apt-get install -y build-essential cmake wget libjpeg-dev libtiff-dev libpng-dev libwebp-dev libraw-dev libgif-dev libvips-dev libde265-dev libx265-dev > /dev/null 2>&1 && \
+    apt-get remove -y libheif-dev > /dev/null 2>&1 && \
     wget https://github.com/strukturag/libheif/archive/refs/tags/v1.19.5.tar.gz 2>&1 && \
     tar -xvzf v1.19.5.tar.gz 2>&1 && \
     cd libheif-1.19.5 2>&1 && \
@@ -52,6 +53,7 @@ RUN apt-get update > /dev/null && \
     apt-get install -y --no-install-recommends apt-utils && \
     apt-get install -y curl ffmpeg libjpeg-dev libtiff-dev libpng-dev libwebp-dev libraw-dev  libgif-dev && \
     apt-get install -y build-essential cmake wget libvips-dev libde265-dev libx265-dev > /dev/null 2>&1 && \
+    apt-get remove -y libheif-dev > /dev/null 2>&1 && \
     wget https://github.com/strukturag/libheif/archive/refs/tags/v1.19.5.tar.gz 2>&1 && \
     tar -xvzf v1.19.5.tar.gz 2>&1 && \
     cd libheif-1.19.5 2>&1 && \
