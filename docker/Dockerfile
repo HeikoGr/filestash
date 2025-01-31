@@ -50,7 +50,16 @@ WORKDIR /app/
 COPY --from=builder_final /home/filestash/dist/ .
 RUN apt-get update > /dev/null && \
     apt-get install -y --no-install-recommends apt-utils && \
-    apt-get install -y curl ffmpeg libjpeg-dev libtiff-dev libpng-dev libwebp-dev libraw-dev libheif-dev libgif-dev && \
+    apt-get install -y curl ffmpeg libjpeg-dev libtiff-dev libpng-dev libwebp-dev libraw-dev  libgif-dev && \
+    apt-get install -y build-essential cmake wget libvips-dev libde265-dev libx265-dev > /dev/null 2>&1 && \
+    wget https://github.com/strukturag/libheif/archive/refs/tags/v1.19.5.tar.gz 2>&1 && \
+    tar -xvzf v1.19.5.tar.gz 2>&1 && \
+    cd libheif-1.19.5 2>&1 && \
+    mkdir build 2>&1 && \
+    cd build 2>&1 && \
+    cmake ..  2>&1 && \
+    make install  2>&1 && \
+    cd ../.. 2>&1 && \
     useradd filestash && \
     chown -R filestash:filestash /app/ && \
     find /app/data/ -type d -exec chmod 770 {} \; && \
